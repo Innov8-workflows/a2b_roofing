@@ -1284,5 +1284,22 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     <button id="cookie-accept" style="background:#2255d4;color:#fff;border:none;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Accept Cookies</button>
   </div>
 </div>
+
+<script>
+// Cookie banner
+(function(){
+  var KEY='a2b_cookie_consent';
+  var banner=document.getElementById('cookie-banner');
+  if(!banner)return;
+  var accept=document.getElementById('cookie-accept');
+  var decline=document.getElementById('cookie-decline');
+  function show(){banner.style.transform='translateY(0)';}
+  function hide(v){try{localStorage.setItem(KEY,v);}catch(e){}banner.style.transform='translateY(100%)';setTimeout(function(){banner.style.display='none';},450);}
+  var stored=null;try{stored=localStorage.getItem(KEY);}catch(e){}
+  if(!stored){setTimeout(show,800);}else{banner.style.display='none';}
+  if(accept)accept.addEventListener('click',function(){hide('accepted');});
+  if(decline)decline.addEventListener('click',function(){hide('declined');});
+})();
+</script>
 </body>
 </html>
