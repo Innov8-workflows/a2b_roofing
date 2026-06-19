@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Google Analytics 4 (cookie-consent gated) -->
+<!-- Google Analytics 4 (cookie-consent gated) + conversion event tracking -->
 <script>
 (function(){
   function loadGA(){
@@ -28,6 +28,50 @@
   }
   window.__loadGA = loadGA;
   try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
+
+  // Fire a GA4 event — silently no-ops if consent hasn't been given
+  window.__trackEvent = function(name, params){
+    try { if (window.__gaLoaded && window.gtag) window.gtag('event', name, params || {}); } catch(e){}
+  };
+
+  // Click delegation for tel: links and the floating WhatsApp widget
+  function findLocation(el){
+    if (el.closest('nav')) return 'nav';
+    if (el.closest('footer')) return 'footer';
+    if (el.classList && el.classList.contains('wa-float')) return 'whatsapp_widget';
+    if (el.closest('.cta-hero')) return 'cta_hero_final';
+    if (el.closest('.hero')) return 'hero';
+    if (el.closest('.page-hero')) return 'page_hero';
+    if (el.closest('.cta-strip')) return 'cta_strip';
+    if (el.closest('#contact')) return 'contact_section';
+    if (el.closest('.trust-bar')) return 'trust_bar';
+    return 'inline';
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('tel:') === 0) {
+      window.__trackEvent('phone_call', {
+        method: 'tel',
+        phone_number: href.replace(/^tel:/, ''),
+        location: findLocation(a),
+        value: 15, currency: 'GBP'
+      });
+    } else if (a.classList && a.classList.contains('wa-float')) {
+      window.__trackEvent('whatsapp_click', {
+        method: 'floating_widget',
+        location: findLocation(a),
+        value: 20, currency: 'GBP'
+      });
+    } else if (href.indexOf('wa.me') > -1 || href.indexOf('whatsapp.com') > -1) {
+      window.__trackEvent('whatsapp_click', {
+        method: 'link',
+        location: findLocation(a),
+        value: 20, currency: 'GBP'
+      });
+    }
+  }, true);
 })();
 </script>
 <style>
