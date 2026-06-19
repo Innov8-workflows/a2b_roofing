@@ -124,6 +124,25 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
   .footer-inner{flex-direction:column;text-align:center;}
 }
 </style>
+<!-- Google Analytics 4 (cookie-consent gated) -->
+<script>
+(function(){
+  function loadGA(){
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XBLWDW8HLV';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-XBLWDW8HLV', { anonymize_ip: true });
+  }
+  window.__loadGA = loadGA;
+  try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
+})();
+</script>
 </head><script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can dry ridge be fitted to an existing roof without re-tiling?","acceptedAnswer":{"@type":"Answer","text":"Yes — in many cases we can strip just the ridge tiles and re-fit them on a dry ridge system without disturbing the rest of the roof. We'll assess whether this is viable during the free survey."}},{"@type":"Question","name":"How long does a dry ridge system last?","acceptedAnswer":{"@type":"Answer","text":"A quality dry ridge system should last the lifetime of the roof — typically 30–50 years. It's genuinely maintenance-free once installed."}},{"@type":"Question","name":"Will dry verge match my existing tiles?","acceptedAnswer":{"@type":"Answer","text":"Dry verge units come in a range of colours — grey, brown, black, and terracotta are the most common. We'll advise on the closest match to your tile colour during the survey."}}]}
 </script><script type="application/ld+json">
@@ -329,7 +348,7 @@ document.querySelectorAll('.service-links a').forEach(function(a){
   var accept=document.getElementById('cookie-accept');
   var decline=document.getElementById('cookie-decline');
   function show(){banner.style.transform='translateY(0)';}
-  function hide(v){try{localStorage.setItem(KEY,v);}catch(e){}banner.style.transform='translateY(100%)';setTimeout(function(){banner.style.display='none';},450);}
+  function hide(v){try{localStorage.setItem(KEY,v);}catch(e){}if(v==='accepted'&&window.__loadGA)window.__loadGA();banner.style.transform='translateY(100%)';setTimeout(function(){banner.style.display='none';},450);}
   var stored=null;try{stored=localStorage.getItem(KEY);}catch(e){}
   if(!stored){setTimeout(show,800);}else{banner.style.display='none';}
   if(accept)accept.addEventListener('click',function(){hide('accepted');});

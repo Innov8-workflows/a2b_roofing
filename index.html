@@ -405,6 +405,25 @@
     .wa-float svg{width:26px;height:26px;}
   }
 </style>
+<!-- Google Analytics 4 (cookie-consent gated) -->
+<script>
+(function(){
+  function loadGA(){
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XBLWDW8HLV';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-XBLWDW8HLV', { anonymize_ip: true });
+  }
+  window.__loadGA = loadGA;
+  try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -1379,7 +1398,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   var accept=document.getElementById('cookie-accept');
   var decline=document.getElementById('cookie-decline');
   function show(){banner.style.transform='translateY(0)';}
-  function hide(v){try{localStorage.setItem(KEY,v);}catch(e){}banner.style.transform='translateY(100%)';setTimeout(function(){banner.style.display='none';},450);}
+  function hide(v){try{localStorage.setItem(KEY,v);}catch(e){}if(v==='accepted'&&window.__loadGA)window.__loadGA();banner.style.transform='translateY(100%)';setTimeout(function(){banner.style.display='none';},450);}
   var stored=null;try{stored=localStorage.getItem(KEY);}catch(e){}
   if(!stored){setTimeout(show,800);}else{banner.style.display='none';}
   if(accept)accept.addEventListener('click',function(){hide('accepted');});
