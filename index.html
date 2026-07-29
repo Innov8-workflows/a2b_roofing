@@ -501,6 +501,28 @@
     try { if (window.__gaLoaded && window.gtag) window.gtag('event', name, params || {}); } catch(e){}
   };
 
+  /* ---------- Lead logger -> Google Sheet (Apps Script web app) ----------
+     Records quote-form submissions, WhatsApp taps and call taps to A2B's leads
+     spreadsheet and emails a notification. Sets no cookies and stores no
+     identifiers beyond what the customer types into the form themselves, so it
+     runs independently of the analytics cookie banner. */
+  var LEAD_URL = 'https://script.google.com/macros/s/AKfycbx2HYHaPVcgKwUXGX1LRxvJQoH04LZBEpLemFyPjBlPVjK9ZTdaB0s_KZvigKk-Qk0w/exec';
+  window.__sendLead = function(data){
+    if (!LEAD_URL) return;
+    try {
+      data.page     = window.location.pathname || '/';
+      data.referrer = document.referrer || '';
+      data.device   = (window.matchMedia && window.matchMedia('(max-width:768px)').matches) ? 'Mobile' : 'Desktop';
+      var body = JSON.stringify(data);
+      /* sendBeacon survives the app-switch to WhatsApp / the dialler that follows a
+         tap; text/plain avoids a CORS preflight Apps Script cannot answer. */
+      if (navigator.sendBeacon &&
+          navigator.sendBeacon(LEAD_URL, new Blob([body], { type: 'text/plain;charset=UTF-8' }))) return;
+      fetch(LEAD_URL, { method: 'POST', mode: 'no-cors', keepalive: true,
+                        headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body });
+    } catch(e){}
+  };
+
   // Click delegation for tel: links and the floating WhatsApp widget
   function findLocation(el){
     if (el.closest('nav')) return 'nav';
@@ -525,18 +547,21 @@
         location: findLocation(a),
         value: 15, currency: 'GBP'
       });
+      window.__sendLead({ type: 'call_click', location: findLocation(a) });
     } else if (a.classList && a.classList.contains('wa-float')) {
       window.__trackEvent('whatsapp_click', {
         method: 'floating_widget',
         location: findLocation(a),
         value: 20, currency: 'GBP'
       });
+      window.__sendLead({ type: 'whatsapp_click', location: 'floating widget' });
     } else if (href.indexOf('wa.me') > -1 || href.indexOf('whatsapp.com') > -1) {
       window.__trackEvent('whatsapp_click', {
         method: 'link',
         location: findLocation(a),
         value: 20, currency: 'GBP'
       });
+      window.__sendLead({ type: 'whatsapp_click', location: findLocation(a) });
     }
   }, true);
 })();
@@ -1209,6 +1234,8 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     var phone   = document.getElementById('f_phone').value.trim();
     var service = document.getElementById('f_service').value;
     var message = document.getElementById('f_message').value.trim();
+    var emailEl = document.getElementById('f_email');
+    var email   = emailEl ? emailEl.value.trim() : '';
     if (!name || !phone || !service) {
       alert('Please fill in your name, phone number, and the service required.');
       return;
@@ -1221,6 +1248,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     text += '\nPlease give me a call or message back when you\'re free. Thank you!';
     var url = 'https://wa.me/447856547938?text=' + encodeURIComponent(text);
     if (window.__trackEvent) window.__trackEvent('generate_lead', { method: 'whatsapp_form', service_required: service, value: 50, currency: 'GBP' });
+    if (window.__sendLead) window.__sendLead({ type: 'form', name: name, phone: phone, email: email, service: service, msg: message });
     window.open(url, '_blank');
     ['f_name','f_phone','f_email','f_message'].forEach(function(id) {
       var el = document.getElementById(id); if (el) el.value = '';
