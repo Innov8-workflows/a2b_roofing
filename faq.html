@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://crm.innov8workflows.co.uk; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; media-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://crm.innov8workflows.co.uk; form-action 'self'; manifest-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frequently Asked Questions | A2B Roofing and Scaffolding Ltd</title>
 <meta name="description" content="Common questions about A2B Roofing and Scaffolding services. Costs, guarantees, insurance, scaffolding, timelines and more. Leicestershire & Derbyshire roofers.">
@@ -112,7 +114,7 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
 {"@type":"Question","name":"Can you match existing tiles?","acceptedAnswer":{"@type":"Answer","text":"We'll always try our best to source matching tiles for repair work. On older properties it isn't always possible to get an exact match but we'll advise you honestly before starting work."}}
 ]}
 </script>
-<!-- Google Analytics 4 (cookie-consent gated) + conversion event tracking -->
+
 <script>
 (function(){
   function loadGA(){
@@ -130,12 +132,10 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
   window.__loadGA = loadGA;
   try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
 
-  // Fire a GA4 event — silently no-ops if consent hasn't been given
   window.__trackEvent = function(name, params){
     try { if (window.__gaLoaded && window.gtag) window.gtag('event', name, params || {}); } catch(e){}
   };
 
-  // Click delegation for tel: links and the floating WhatsApp widget
   function findLocation(el){
     if (el.closest('nav')) return 'nav';
     if (el.closest('footer')) return 'footer';
@@ -305,15 +305,13 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
 </div>
 
 <script>
-// Mobile menu
+
 function openMenu(){ document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu(){ document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
 
-// Load logo
 document.getElementById('siteLogo').src = '/logo.jpg';
 document.getElementById('footerLogo').src = '/logo.jpg';
 
-// Cookie banner
 (function(){
   var KEY='a2b_cookie_consent';
   var banner=document.getElementById('cookie-banner');

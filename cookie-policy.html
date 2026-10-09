@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://crm.innov8workflows.co.uk; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; media-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://crm.innov8workflows.co.uk; form-action 'self'; manifest-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cookie Policy | A2B Roofing and Scaffolding Ltd</title>
 <meta name="description" content="Cookie policy for A2B Roofing and Scaffolding Ltd. What cookies we use and how to control them.">
@@ -65,7 +67,7 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
 .footer-links{display:flex;gap:24px;list-style:none;flex-wrap:wrap;}
 .footer-links a{font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s;}
 .footer-links a:hover{color:rgba(255,255,255,0.7);}
-/* Cookie banner */
+
 #cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:2000;background:#0e1829;border-top:1px solid rgba(34,85,212,0.4);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;transform:translateY(100%);transition:transform 0.4s ease;}
 #cookie-banner.show{transform:translateY(0);}
 #cookie-banner p{font-size:14px;color:rgba(255,255,255,0.7);max-width:700px;line-height:1.6;margin:0;}
@@ -79,7 +81,7 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
 @media(max-width:900px){.nav-links{display:none;}.hamburger{display:flex;}}
 @media(max-width:600px){.doc-body{padding:48px 20px 72px;}.page-hero{padding:110px 20px 48px;}.footer-inner{flex-direction:column;text-align:center;}.cookie-btns{width:100%;}.cookie-accept,.cookie-decline{flex:1;text-align:center;}}
 </style>
-<!-- Google Analytics 4 (cookie-consent gated) + conversion event tracking -->
+
 <script>
 (function(){
   function loadGA(){
@@ -97,12 +99,10 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
   window.__loadGA = loadGA;
   try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
 
-  // Fire a GA4 event — silently no-ops if consent hasn't been given
   window.__trackEvent = function(name, params){
     try { if (window.__gaLoaded && window.gtag) window.gtag('event', name, params || {}); } catch(e){}
   };
 
-  // Click delegation for tel: links and the floating WhatsApp widget
   function findLocation(el){
     if (el.closest('nav')) return 'nav';
     if (el.closest('footer')) return 'footer';
@@ -256,7 +256,6 @@ footer{background:#070e1d;border-top:1px solid rgba(34,85,212,0.2);padding:40px 
   </div>
 </div>
 
-
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img id="footerLogo" src="" alt="A2B Roofing and Scaffolding Ltd"></div>
@@ -283,7 +282,7 @@ const LOGO = '/9j/4AAQSkZJRgABAQAASABIAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIbGNtcwIQAA
 document.querySelectorAll('#siteLogo,#footerLogo').forEach(i => i.src = 'data:image/jpeg;base64,' + LOGO);
 function openMenu(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden';}
 function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
-// Cookie banner
+
 (function(){
   var banner = document.getElementById('cookie-banner');
   if(!banner) return;

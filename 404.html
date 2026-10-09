@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://crm.innov8workflows.co.uk; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; media-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://crm.innov8workflows.co.uk; form-action 'self'; manifest-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page Not Found | A2B Roofing and Scaffolding Ltd</title>
 <meta name="description" content="The page you were looking for doesn't exist. Head back to A2B Roofing and Scaffolding, Leicestershire and Derbyshire's local roofers.">
@@ -11,7 +13,7 @@
 <link rel="apple-touch-icon" href="/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Google Analytics 4 (cookie-consent gated) + conversion event tracking -->
+
 <script>
 (function(){
   function loadGA(){
@@ -29,12 +31,10 @@
   window.__loadGA = loadGA;
   try { if (localStorage.getItem('a2b_cookie_consent') === 'accepted') loadGA(); } catch(e){}
 
-  // Fire a GA4 event — silently no-ops if consent hasn't been given
   window.__trackEvent = function(name, params){
     try { if (window.__gaLoaded && window.gtag) window.gtag('event', name, params || {}); } catch(e){}
   };
 
-  // Click delegation for tel: links and the floating WhatsApp widget
   function findLocation(el){
     if (el.closest('nav')) return 'nav';
     if (el.closest('footer')) return 'footer';
